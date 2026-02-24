@@ -19,8 +19,13 @@ package com.crydafan.cameraexample
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.BuildCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -43,6 +48,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
+
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
+            onBackPressedDispatcher.addCallback {
+                // Workaround for Android Q memory leak issue in IRequestFinishCallback$Stub.
+                // (https://issuetracker.google.com/issues/139738913)
+                finishAfterTransition()
+            }
+        }
     }
 
     override fun onResume() {
@@ -64,16 +77,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             else -> super.onKeyDown(keyCode, event)
-        }
-    }
-
-    override fun onBackPressed() {
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-            // Workaround for Android Q memory leak issue in IRequestFinishCallback$Stub.
-            // (https://issuetracker.google.com/issues/139738913)
-            finishAfterTransition()
-        } else {
-            super.onBackPressed()
         }
     }
 
