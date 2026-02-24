@@ -527,7 +527,6 @@ class CameraFragment : Fragment() {
                             val savedUri = output.savedUri
                             Log.d(TAG, "Photo capture succeeded: $savedUri")
 
-                            // We can only change the foreground Drawable using API level 23+ API
                             // Update the gallery thumbnail with latest picture taken
                             setGalleryThumbnail(savedUri)
                         }
