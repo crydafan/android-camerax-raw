@@ -503,10 +503,8 @@ class CameraFragment : Fragment() {
                 val contentValues = ContentValues().apply {
                     put(MediaStore.MediaColumns.DISPLAY_NAME, name)
                     put(MediaStore.MediaColumns.MIME_TYPE, PHOTO_TYPE)
-                    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-                        val appName = requireContext().resources.getString(R.string.app_name)
-                        put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/${appName}")
-                    }
+                    val appName = requireContext().resources.getString(R.string.app_name)
+                    put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/${appName}")
                 }
 
                 // Create output options object which contains file + metadata
@@ -530,34 +528,18 @@ class CameraFragment : Fragment() {
                             Log.d(TAG, "Photo capture succeeded: $savedUri")
 
                             // We can only change the foreground Drawable using API level 23+ API
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                // Update the gallery thumbnail with latest picture taken
-                                setGalleryThumbnail(savedUri)
-                            }
-
-                            // Implicit broadcasts will be ignored for devices running API level >= 24
-                            // so if you only target API level 24+ you can remove this statement
-                            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                                // Suppress deprecated Camera usage needed for API level 23 and below
-                                @Suppress("DEPRECATION")
-                                requireActivity().sendBroadcast(
-                                    Intent(android.hardware.Camera.ACTION_NEW_PICTURE, savedUri)
-                                )
-                            }
+                            // Update the gallery thumbnail with latest picture taken
+                            setGalleryThumbnail(savedUri)
                         }
                     })
 
-                // We can only change the foreground Drawable using API level 23+ API
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-                    // Display flash animation to indicate that photo was captured
-                    fragmentCameraBinding.root.postDelayed({
-                        fragmentCameraBinding.root.foreground = Color.WHITE.toDrawable()
-                        fragmentCameraBinding.root.postDelayed(
-                            { fragmentCameraBinding.root.foreground = null }, ANIMATION_FAST_MILLIS
-                        )
-                    }, ANIMATION_SLOW_MILLIS)
-                }
+                // Display flash animation to indicate that photo was captured
+                fragmentCameraBinding.root.postDelayed({
+                    fragmentCameraBinding.root.foreground = Color.WHITE.toDrawable()
+                    fragmentCameraBinding.root.postDelayed(
+                        { fragmentCameraBinding.root.foreground = null }, ANIMATION_FAST_MILLIS
+                    )
+                }, ANIMATION_SLOW_MILLIS)
             }
         }
 

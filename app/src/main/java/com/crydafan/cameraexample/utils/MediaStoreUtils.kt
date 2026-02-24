@@ -39,11 +39,8 @@ import java.io.File
  */
 class MediaStoreUtils(private val context: Context) {
 
-    val mediaStoreCollection: Uri? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+    val mediaStoreCollection: Uri? =
         MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL)
-    } else {
-        context.getExternalFilesDir(null)?.toUri()
-    }
 
     private suspend fun getMediaStoreImageCursor(mediaStoreCollection: Uri): Cursor? {
         var cursor: Cursor?

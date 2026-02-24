@@ -40,13 +40,6 @@ class PermissionsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // add the storage access permission request for Android 9 and below.
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
-            val permissionList = PERMISSIONS_REQUIRED.toMutableList()
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            PERMISSIONS_REQUIRED = permissionList.toTypedArray()
-        }
-
         if (!hasPermissions(requireContext())) {
             // Request camera-related permissions
             activityResultLauncher.launch(PERMISSIONS_REQUIRED)

@@ -114,10 +114,8 @@ class GalleryFragment internal constructor() : Fragment() {
         }
 
         // Make sure that the cutout "safe area" avoids the screen notch if any
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            // Use extension method to pad "inside" view containing UI using display cutout's bounds
-            fragmentGalleryBinding.cutoutSafeArea.padWithDisplayCutout()
-        }
+        // Use extension method to pad "inside" view containing UI using display cutout's bounds
+        fragmentGalleryBinding.cutoutSafeArea.padWithDisplayCutout()
 
         // Handle back button press
         fragmentGalleryBinding.backButton.setOnClickListener {

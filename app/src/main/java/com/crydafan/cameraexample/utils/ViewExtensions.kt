@@ -47,7 +47,6 @@ fun ImageButton.simulateClick(delay: Long = ANIMATION_FAST_MILLIS) {
 }
 
 /** Pad this view with the insets provided by the device cutout (i.e. notch) */
-@RequiresApi(Build.VERSION_CODES.P)
 fun View.padWithDisplayCutout() {
 
     /** Helper method that applies padding from cutout's safe insets */
@@ -55,7 +54,8 @@ fun View.padWithDisplayCutout() {
         cutout.safeInsetLeft,
         cutout.safeInsetTop,
         cutout.safeInsetRight,
-        cutout.safeInsetBottom)
+        cutout.safeInsetBottom
+    )
 
     // Apply padding using the display cutout designated "safe area"
     rootWindowInsets?.displayCutout?.let { doPadding(it) }
@@ -72,7 +72,8 @@ fun AlertDialog.showImmersive() {
     // Set the dialog to not focusable
     window?.setFlags(
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+    )
 
     // Make sure that the dialog's window is in full screen
     window?.let { hideSystemUI(it) }
